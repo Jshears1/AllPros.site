@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AllPros — Commercial Technology Solutions for Atlanta Businesses</title>
+  <meta name="description" content="Pro A/V, Managed IT, hardware procurement, installation, and service contracts for Atlanta-area businesses. D&H authorized reseller." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080c0e;
+      --bg2: #0d1417;
+      --bg3: #121a1e;
+      --gold: #e8a020;
+      --gold-dim: #b07818;
+      --gold-glow: rgba(232,160,32,0.15);
+      --text: #e8edf0;
+      --muted: #7a8f98;
+      --border: rgba(232,160,32,0.18);
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      height: 64px;
+      background: rgba(8,12,14,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--text); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      background: var(--gold);
+      color: #080c0e;
+      padding: 0.5rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .nav-cta:hover { background: #f0b030; transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 2rem 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(232,160,32,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(232,160,32,0.1);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.4rem 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+    .hero-badge::before { content: '●'; font-size: 0.5rem; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      max-width: 900px;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em { font-style: normal; color: var(--gold); }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--muted);
+      max-width: 620px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-bottom: 4rem; }
+    .btn-primary {
+      background: var(--gold);
+      color: #080c0e;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { background: #f0b030; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,160,32,0.3); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      border: 1px solid rgba(232,240,248,0.2);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    .metrics-row {
+      display: flex; gap: 3rem; flex-wrap: wrap; justify-content: center;
+      border-top: 1px solid var(--border);
+      padding-top: 2.5rem;
+    }
+    .metric { text-align: center; }
+    .metric-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--gold);
+      display: block;
+    }
+    .metric-label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      overflow: hidden;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0;
+      white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 30s linear infinite;
+    }
+    .ticker-inner span {
+      display: inline-block;
+      padding: 0 2.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .ticker-inner span em { color: var(--gold); font-style: normal; }
+    @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 1140px; margin: 0 auto; }
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .section-sub { color: var(--muted); max-width: 580px; margin-bottom: 3rem; line-height: 1.7; }
+
+    /* ── NETWORK GRID ── */
+    #network { background: var(--bg2); }
+    .grid-6 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .card:hover { border-color: var(--gold); transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+    .card:hover::before { opacity: 1; }
+    .card-flag {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(232,160,32,0.1);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .card-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+    .card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem; }
+    .card-link {
+      color: var(--gold);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex; align-items: center; gap: 0.3rem;
+    }
+    .card-link:hover { gap: 0.5rem; }
+
+    /* ── INDUSTRIES ── */
+    .industry-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+    .industry-card {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.75rem;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 1rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.25s, background 0.25s, transform 0.2s;
+      text-align: center;
+    }
+    .industry-card:hover { border-color: var(--gold); background: rgba(232,160,32,0.05); transform: translateY(-2px); }
+    .industry-icon { font-size: 2.5rem; }
+    .industry-name { font-weight: 600; font-size: 0.9rem; }
+    .industry-sub { font-size: 0.75rem; color: var(--muted); }
+
+    /* ── MATH / PRICING ── */
+    #pricing { background: var(--bg2); }
+    .math-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .math-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+    }
+    .math-card.featured {
+      border-color: var(--gold);
+      background: linear-gradient(135deg, rgba(232,160,32,0.05) 0%, var(--bg3) 100%);
+    }
+    .tier-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .tier-price {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .tier-sub { font-size: 0.8rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .tier-features { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .tier-features li { font-size: 0.875rem; display: flex; gap: 0.5rem; }
+    .tier-features li::before { content: '✓'; color: var(--gold); flex-shrink: 0; }
+    .tier-features li.no::before { content: '—'; color: var(--muted); }
+    .tier-features li.no { color: var(--muted); }
+
+    .math-explainer {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    .math-item { }
+    .math-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem; font-family: 'DM Mono', monospace; }
+    .math-val { font-family: 'Syne', sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--gold); }
+    .math-desc { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* ── HOW IT RUNS ── */
+    .steps { display: flex; flex-direction: column; gap: 0; position: relative; max-width: 720px; }
+    .steps::before {
+      content: '';
+      position: absolute;
+      left: 23px; top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    .step { display: flex; gap: 2rem; padding: 0 0 3rem; }
+    .step-num {
+      flex-shrink: 0;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--gold);
+      position: relative; z-index: 1;
+    }
+    .step-content h3 { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .step-content p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+
+    /* ── FINAL CTA ── */
+    #cta {
+      background: var(--bg2);
+      text-align: center;
+    }
+    .cta-box {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--bg3);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(232,160,32,0.12), transparent 70%);
+      pointer-events: none;
+    }
+    .cta-box h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 1rem; }
+    .cta-box p { color: var(--muted); margin-bottom: 2rem; }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .footer-inner {
+      max-width: 1140px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: flex-start;
+      flex-wrap: wrap; gap: 2rem;
+    }
+    .footer-brand .nav-logo { display: block; margin-bottom: 0.5rem; }
+    .footer-brand p { font-size: 0.8rem; color: var(--muted); max-width: 260px; }
+    .footer-links { display: flex; gap: 3rem; flex-wrap: wrap; }
+    .footer-col h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 0.75rem; font-family: 'DM Mono', monospace; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+    .footer-col a { color: var(--muted); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--text); }
+    .footer-bottom {
+      max-width: 1140px; margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+      font-size: 0.75rem; color: var(--muted);
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .metrics-row { gap: 2rem; }
+      .footer-links { flex-direction: column; gap: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">All<span>Pros</span></a>
+  <ul class="nav-links">
+    <li><a href="#network">Services</a></li>
+    <li><a href="#industries">Industries</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#how">How It Works</a></li>
+  </ul>
+  <a href="quote.html" class="nav-cta">Get a Quote</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Atlanta's Commercial Tech Partner · D&H Authorized Reseller</div>
+  <h1>The Technology Stack<br />Your Business <em>Actually</em> Needs</h1>
+  <p class="hero-sub">Pro A/V, Managed IT, hardware procurement, installation, and service contracts — delivered as a single partner for Atlanta-area businesses.</p>
+  <div class="hero-actions">
+    <a href="quote.html" class="btn-primary">Build My Quote →</a>
+    <a href="#network" class="btn-secondary">See What We Do</a>
+  </div>
+  <div class="metrics-row">
+    <div class="metric"><span class="metric-num">6</span><span class="metric-label">Service Verticals</span></div>
+    <div class="metric"><span class="metric-num">24h</span><span class="metric-label">Quote Turnaround</span></div>
+    <div class="metric"><span class="metric-num">D&H</span><span class="metric-label">Authorized Reseller</span></div>
+    <div class="metric"><span class="metric-num">ATL</span><span class="metric-label">Metro Coverage</span></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span>Pro A/V Systems <em>◆</em></span>
+    <span>Commercial Sound <em>◆</em></span>
+    <span>Managed IT &amp; Cloud <em>◆</em></span>
+    <span>Hardware Procurement <em>◆</em></span>
+    <span>Service Contracts <em>◆</em></span>
+    <span>As-a-Service Bundles <em>◆</em></span>
+    <span>Professional Installation <em>◆</em></span>
+    <span>D&amp;H Authorized Reseller <em>◆</em></span>
+    <span>Atlanta Metro <em>◆</em></span>
+    <span>Restaurants &amp; Bars <em>◆</em></span>
+    <span>Houses of Worship <em>◆</em></span>
+    <span>Gyms &amp; Fitness <em>◆</em></span>
+    <span>SMB Offices <em>◆</em></span>
+    <span>Government &amp; Schools <em>◆</em></span>
+    <!-- duplicate for seamless loop -->
+    <span>Pro A/V Systems <em>◆</em></span>
+    <span>Commercial Sound <em>◆</em></span>
+    <span>Managed IT &amp; Cloud <em>◆</em></span>
+    <span>Hardware Procurement <em>◆</em></span>
+    <span>Service Contracts <em>◆</em></span>
+    <span>As-a-Service Bundles <em>◆</em></span>
+    <span>Professional Installation <em>◆</em></span>
+    <span>D&amp;H Authorized Reseller <em>◆</em></span>
+    <span>Atlanta Metro <em>◆</em></span>
+    <span>Restaurants &amp; Bars <em>◆</em></span>
+    <span>Houses of Worship <em>◆</em></span>
+    <span>Gyms &amp; Fitness <em>◆</em></span>
+    <span>SMB Offices <em>◆</em></span>
+    <span>Government &amp; Schools <em>◆</em></span>
+  </div>
+</div>
+
+<!-- NETWORK GRID -->
+<section id="network">
+  <div class="container">
+    <div class="section-label">Our Network</div>
+    <h2 class="section-title">Six Practices.<br />One Point of Contact.</h2>
+    <p class="section-sub">From the speaker overhead to the server in the closet, AllPros handles every layer of your commercial technology stack.</p>
+    <div class="grid-6">
+
+      <div class="card">
+        <span class="card-flag">Flagship</span>
+        <span class="card-icon">🔊</span>
+        <h3>Pro A/V &amp; Commercial Sound</h3>
+        <p>Design, supply, and install distributed audio, video walls, digital signage, and conference room A/V — engineered for your space, not a catalog spec.</p>
+        <a class="card-link" href="https://av.allpros.site">Explore A/V →</a>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">☁️</span>
+        <h3>Managed IT &amp; Cloud</h3>
+        <p>Flat-rate managed services: endpoint monitoring, patch management, Microsoft 365, backup, and helpdesk — without a full-time IT hire.</p>
+        <a class="card-link" href="quote.html?type=office">Get IT Quote →</a>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">📦</span>
+        <h3>As-a-Service Bundles</h3>
+        <p>Hardware + software + support rolled into a single monthly line item. Preserve capital, stay current, and know exactly what you'll spend.</p>
+        <a class="card-link" href="quote.html">See Bundles →</a>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">🖥️</span>
+        <h3>Hardware Procurement</h3>
+        <p>D&H authorized reseller pricing on laptops, desktops, networking, displays, and peripherals — quoted fast, delivered faster.</p>
+        <a class="card-link" href="quote.html">Get Hardware Quote →</a>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">🔧</span>
+        <h3>Professional Services</h3>
+        <p>Structured cabling, rack build-outs, network infrastructure, and on-site tech consulting. We plan it, pull the wire, and document everything.</p>
+        <a class="card-link" href="quote.html">Scope a Project →</a>
+      </div>
+
+      <div class="card">
+        <span class="card-icon">🏗️</span>
+        <h3>Construction &amp; Trades Leads</h3>
+        <p>GCs and builders: we supply pre-construction tech plans, rough-in specs, and post-construction fit-out for commercial new builds and renovations.</p>
+        <a class="card-link" href="quote.html">Partner With Us →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section id="industries">
+  <div class="container">
+    <div class="section-label">Who We Serve</div>
+    <h2 class="section-title">Built for<br />Your Industry</h2>
+    <p class="section-sub">Every vertical has different tech requirements. We've packaged the right stack for each — click yours to start a quote.</p>
+    <div class="industry-grid">
+      <a href="quote.html?type=restaurant" class="industry-card">
+        <span class="industry-icon">🍽️</span>
+        <span class="industry-name">Restaurants &amp; Bars</span>
+        <span class="industry-sub">Sound, screens, POS networking</span>
+      </a>
+      <a href="quote.html?type=gym" class="industry-card">
+        <span class="industry-icon">🏋️</span>
+        <span class="industry-name">Gyms &amp; Fitness</span>
+        <span class="industry-sub">Distributed audio, TV zones</span>
+      </a>
+      <a href="quote.html?type=worship" class="industry-card">
+        <span class="industry-icon">⛪</span>
+        <span class="industry-name">Houses of Worship</span>
+        <span class="industry-sub">Sanctuary A/V, streaming</span>
+      </a>
+      <a href="quote.html?type=school" class="industry-card">
+        <span class="industry-icon">🎓</span>
+        <span class="industry-name">Schools</span>
+        <span class="industry-sub">Classroom tech, PA, IT</span>
+      </a>
+      <a href="quote.html?type=office" class="industry-card">
+        <span class="industry-icon">🏢</span>
+        <span class="industry-name">SMB Offices</span>
+        <span class="industry-sub">Managed IT, conf rooms</span>
+      </a>
+      <a href="quote.html?type=retail" class="industry-card">
+        <span class="industry-icon">🏛️</span>
+        <span class="industry-name">Government</span>
+        <span class="industry-sub">Secure IT, A/V, signage</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- MATH / PRICING COMPARISON -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-label">The Math</div>
+    <h2 class="section-title">Three Ways to Buy.<br />One Partner Either Way.</h2>
+    <p class="section-sub">Whether you're cutting a check or spreading cost over 36 months, the AllPros model is designed to make the numbers work for your business.</p>
+
+    <div class="math-grid">
+      <div class="math-card">
+        <div class="tier-name">Hardware Only</div>
+        <div class="tier-price">Cost+</div>
+        <div class="tier-sub">D&H dealer pricing passed through</div>
+        <ul class="tier-features">
+          <li>D&H authorized dealer pricing</li>
+          <li>Fast procurement & delivery</li>
+          <li>Spec and configuration support</li>
+          <li class="no">No design services</li>
+          <li class="no">No installation</li>
+          <li class="no">No ongoing support</li>
+        </ul>
+      </div>
+
+      <div class="math-card featured">
+        <div class="tier-name">✦ Designed System</div>
+        <div class="tier-price">Fixed</div>
+        <div class="tier-sub">Design + supply + install, one price</div>
+        <ul class="tier-features">
+          <li>Site survey &amp; system design</li>
+          <li>D&H hardware at dealer cost</li>
+          <li>Professional installation</li>
+          <li>As-built documentation</li>
+          <li>30-day workmanship warranty</li>
+          <li class="no">No ongoing managed support</li>
+        </ul>
+      </div>
+
+      <div class="math-card">
+        <div class="tier-name">Installed + Service</div>
+        <div class="tier-price">/mo</div>
+        <div class="tier-sub">Everything, billed monthly over 36 mo</div>
+        <ul class="tier-features">
+          <li>Everything in Designed System</li>
+          <li>Hardware rolled into monthly</li>
+          <li>Ongoing managed support</li>
+          <li>Priority response SLA</li>
+          <li>Annual tech refresh eligible</li>
+          <li>Single monthly invoice</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="math-explainer">
+      <div class="math-item">
+        <div class="math-label">Hardware Margin</div>
+        <div class="math-val">20–35%</div>
+        <div class="math-desc">D&H dealer pricing gives us room to compete while staying profitable.</div>
+      </div>
+      <div class="math-item">
+        <div class="math-label">Labor Margin</div>
+        <div class="math-val">50–65%</div>
+        <div class="math-desc">Skilled installation and design work carries strong margin.</div>
+      </div>
+      <div class="math-item">
+        <div class="math-label">MRR Target</div>
+        <div class="math-val">$500–2k/client</div>
+        <div class="math-desc">Monthly recurring from managed IT + service contracts compounds fast.</div>
+      </div>
+      <div class="math-item">
+        <div class="math-label">Avg. Project</div>
+        <div class="math-val">$8k–45k</div>
+        <div class="math-desc">Commercial A/V and IT fit-outs for SMBs and mid-market.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT RUNS -->
+<section id="how">
+  <div class="container">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">From Quote to<br />Live System in Days</h2>
+    <p class="section-sub">We've compressed the typical enterprise procurement cycle into a repeatable 4-step process built for small and mid-size commercial clients.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <h3>Configure Your Quote Online</h3>
+          <p>Select your vertical, choose what you need, and pick a tier. Our configurator generates an itemized estimate with hardware cost, labor, and optional monthly — in about 3 minutes.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <h3>We Validate &amp; Scope</h3>
+          <p>A real AllPros tech reviews your submission within 24 hours, verifies specs against your space, and sends a finalized proposal with line-item pricing from our D&H catalog.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <h3>Hardware Ships, Install Is Scheduled</h3>
+          <p>D&H fulfills directly to site or our staging area. We coordinate delivery with your install window so everything arrives together — no waiting rooms full of boxes.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <h3>System Goes Live. We Stick Around.</h3>
+          <p>Installation, commissioning, staff training, and documentation on day one. If you chose a service contract, your monitoring starts immediately — and you get a single number to call forever.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="cta">
+  <div class="container">
+    <div class="cta-box">
+      <div class="section-label" style="text-align:center">Ready to Start?</div>
+      <h2>Get Your Custom Quote<br />in 3 Minutes</h2>
+      <p>No sales call required. Configure your system, see the estimate, and submit — we'll follow up within one business day.</p>
+      <div class="cta-actions">
+        <a href="quote.html" class="btn-primary">Build My Quote →</a>
+        <a href="mailto:jessen@shearsunlimitedholdingsllc.com" class="btn-secondary">Talk to a Human</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="/" class="nav-logo">All<span>Pros</span></a>
+      <p>Commercial technology solutions for Atlanta-area businesses. A Shears Unlimited Holdings LLC company.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="https://av.allpros.site">Pro A/V &amp; Sound</a></li>
+          <li><a href="quote.html?type=office">Managed IT</a></li>
+          <li><a href="quote.html">As-a-Service</a></li>
+          <li><a href="quote.html">Hardware</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Industries</h4>
+        <ul>
+          <li><a href="quote.html?type=restaurant">Restaurants</a></li>
+          <li><a href="quote.html?type=gym">Gyms</a></li>
+          <li><a href="quote.html?type=worship">Worship</a></li>
+          <li><a href="quote.html?type=school">Schools</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="mailto:jessen@shearsunlimitedholdingsllc.com">Contact Us</a></li>
+          <li><a href="quote.html">Get a Quote</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 AllPros · Shears Unlimited Holdings LLC · Atlanta, GA</span>
+    <span style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--gold-dim)">D&H AUTHORIZED RESELLER</span>
+  </div>
+</footer>
+
+</body>
+</html>

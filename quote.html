@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get a Quote — AllPros Commercial Technology</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#080c0e;--dark:#0d1117;--panel:#111820;--border:#1c2530;--border-light:#243040;
+  --gold:#e8a020;--gold-dim:#a87018;--gold-glow:rgba(232,160,32,0.1);
+  --text:#c8d8e8;--text-dim:#607080;--text-bright:#e8f0f8;
+  --green:#28c880;--red:#e84040;--blue:#3888f8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;}
+
+nav{height:60px;background:rgba(8,12,14,0.95);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 48px;gap:16px;}
+.logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--text-bright);text-decoration:none;display:flex;align-items:center;gap:8px;}
+.logo-mark{width:24px;height:24px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--black);}
+.logo span{color:var(--gold);}
+.nav-back{font-size:13px;color:var(--text-dim);text-decoration:none;margin-left:auto;}
+.nav-back:hover{color:var(--text);}
+
+.page{max-width:960px;margin:0 auto;padding:60px 48px 80px;}
+.page-header{margin-bottom:48px;}
+.page-eyebrow{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+.page-title{font-family:'Syne',sans-serif;font-size:clamp(32px,4vw,48px);font-weight:800;color:var(--text-bright);letter-spacing:-1.5px;margin-bottom:10px;}
+.page-sub{font-size:15px;color:var(--text-dim);line-height:1.7;}
+
+/* STEP INDICATOR */
+.steps{display:flex;align-items:center;gap:0;margin-bottom:48px;}
+.step{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
+.step-num{width:24px;height:24px;border:1px solid var(--border-light);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all 0.2s;}
+.step.active .step-num{background:var(--gold);border-color:var(--gold);color:var(--black);}
+.step.active{color:var(--text);}
+.step.done .step-num{background:var(--green);border-color:var(--green);color:var(--black);}
+.step-line{flex:1;height:1px;background:var(--border);margin:0 16px;}
+
+/* VERTICAL SELECTOR */
+.verticals{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;}
+.vertical-card{border:1px solid var(--border);padding:24px 20px;cursor:pointer;transition:all 0.2s;background:var(--dark);user-select:none;}
+.vertical-card:hover{border-color:var(--border-light);background:var(--panel);}
+.vertical-card.selected{border-color:var(--gold);background:var(--gold-glow);}
+.vert-icon{font-size:24px;margin-bottom:10px;}
+.vert-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--text-bright);letter-spacing:-0.3px;margin-bottom:4px;}
+.vert-desc{font-size:12px;color:var(--text-dim);line-height:1.5;}
+
+/* CONFIGURATOR PANELS */
+.configurator{display:none;}
+.configurator.active{display:block;}
+.config-section{margin-bottom:36px;}
+.config-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+.config-options{display:flex;gap:8px;flex-wrap:wrap;}
+.config-option{border:1px solid var(--border);padding:10px 18px;font-size:13px;color:var(--text-dim);cursor:pointer;transition:all 0.2s;user-select:none;font-family:'Inter',sans-serif;}
+.config-option:hover{border-color:var(--border-light);color:var(--text);}
+.config-option.selected{border-color:var(--gold);color:var(--gold);background:var(--gold-glow);}
+.config-slider-wrap{display:flex;align-items:center;gap:16px;}
+.config-slider{flex:1;-webkit-appearance:none;height:2px;background:var(--border-light);outline:none;}
+.config-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:var(--gold);cursor:pointer;}
+.config-slider-val{font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);min-width:60px;text-align:right;}
+
+/* TIER SELECTOR */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);margin-bottom:36px;}
+.tier-card{background:var(--dark);padding:24px 20px;cursor:pointer;transition:background 0.2s;border-top:2px solid transparent;}
+.tier-card:hover{background:var(--panel);}
+.tier-card.selected{background:var(--panel);border-top-color:var(--gold);}
+.tier-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+.tier-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--text-bright);letter-spacing:-0.3px;margin-bottom:6px;}
+.tier-desc{font-size:12px;color:var(--text-dim);line-height:1.6;margin-bottom:10px;}
+.tier-margin{font-family:'DM Mono',monospace;font-size:11px;}
+.tier-margin.low{color:#cc8855;}
+.tier-margin.med{color:#88cc88;}
+.tier-margin.high{color:var(--green);}
+
+/* QUOTE OUTPUT */
+.quote-output{background:var(--dark);border:1px solid var(--border);padding:0;}
+.qo-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.qo-title{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase;}
+.qo-badge{font-family:'DM Mono',monospace;font-size:10px;color:var(--green);background:rgba(40,200,128,0.1);padding:3px 10px;}
+.qo-body{padding:24px;}
+.qo-row{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--border);gap:16px;}
+.qo-row:last-child{border-bottom:none;}
+.qo-item{flex:1;}
+.qo-item-name{font-size:13px;color:var(--text);margin-bottom:2px;}
+.qo-item-desc{font-size:11px;color:var(--text-dim);}
+.qo-price-col{text-align:right;min-width:140px;}
+.qo-cost{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-dim);}
+.qo-sell{font-family:'DM Mono',monospace;font-size:14px;color:var(--text-bright);}
+.qo-profit{font-family:'DM Mono',monospace;font-size:11px;color:var(--green);}
+.qo-footer{padding:20px 24px;background:var(--panel);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.qo-totals{display:flex;gap:32px;}
+.qo-total-item{text-align:center;}
+.qo-total-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.qo-total-val{font-family:'DM Mono',monospace;font-size:20px;color:var(--text-bright);}
+.qo-total-val.profit{color:var(--green);}
+.qo-total-val.margin{color:var(--gold);}
+
+/* CONTACT FORM */
+.contact-form{display:flex;flex-direction:column;gap:16px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:6px;}
+.form-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase;}
+.form-input{background:var(--dark);border:1px solid var(--border);color:var(--text-bright);padding:12px 16px;font-size:14px;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s;}
+.form-input:focus{border-color:var(--gold);}
+.form-input::placeholder{color:var(--text-dim);}
+textarea.form-input{resize:vertical;min-height:80px;}
+
+/* BUTTONS */
+.btn-row{display:flex;justify-content:space-between;align-items:center;margin-top:32px;}
+.btn-next{background:var(--gold);color:var(--black);padding:14px 36px;font-size:14px;font-weight:600;border:none;cursor:pointer;letter-spacing:0.3px;transition:all 0.2s;font-family:'Inter',sans-serif;}
+.btn-next:hover{background:#f0b030;}
+.btn-next:disabled{opacity:0.4;cursor:not-allowed;}
+.btn-back{background:none;border:1px solid var(--border-light);color:var(--text-dim);padding:14px 28px;font-size:14px;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;}
+.btn-back:hover{border-color:var(--text-dim);color:var(--text);}
+.btn-submit{background:var(--green);color:var(--black);padding:14px 36px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;}
+.btn-submit:hover{background:#38d890;}
+
+/* SUCCESS */
+.success-screen{display:none;text-align:center;padding:60px 40px;}
+.success-icon{font-size:48px;margin-bottom:24px;}
+.success-title{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--text-bright);letter-spacing:-1px;margin-bottom:12px;}
+.success-sub{font-size:15px;color:var(--text-dim);line-height:1.7;margin-bottom:32px;}
+
+@media(max-width:768px){
+  .page{padding:40px 20px 60px;}
+  .verticals{grid-template-columns:1fr 1fr;}
+  .tiers{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  nav{padding:0 20px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="allpros_homepage.html" class="logo">
+    <div class="logo-mark">AP</div>
+    All<span>Pros</span>
+  </a>
+  <a href="allpros_homepage.html" class="nav-back">← Back to AllPros</a>
+</nav>
+
+<div class="page">
+
+  <div class="page-header">
+    <div class="page-eyebrow">Instant Estimate</div>
+    <div class="page-title">Build Your Quote</div>
+    <p class="page-sub">Select your business type, configure your needs, and get an itemized estimate in under 2 minutes. No email required to see pricing.</p>
+  </div>
+
+  <!-- STEP INDICATOR -->
+  <div class="steps">
+    <div class="step active" id="step-ind-1">
+      <div class="step-num" id="sn-1">1</div>
+      <span>Business Type</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" id="step-ind-2">
+      <div class="step-num" id="sn-2">2</div>
+      <span>Configure</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" id="step-ind-3">
+      <div class="step-num" id="sn-3">3</div>
+      <span>Your Quote</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step" id="step-ind-4">
+      <div class="step-num" id="sn-4">4</div>
+      <span>Contact</span>
+    </div>
+  </div>
+
+  <!-- STEP 1: VERTICAL SELECTION -->
+  <div id="step-1">
+    <div class="config-label">What type of business are you?</div>
+    <div class="verticals">
+      <div class="vertical-card" data-vertical="restaurant">
+        <div class="vert-icon">🍽️</div>
+        <div class="vert-name">Restaurant / Bar</div>
+        <div class="vert-desc">Background music, paging, zone audio</div>
+      </div>
+      <div class="vertical-card" data-vertical="gym">
+        <div class="vert-icon">💪</div>
+        <div class="vert-name">Gym / Fitness Studio</div>
+        <div class="vert-desc">Zone audio, signage, instructor mics</div>
+      </div>
+      <div class="vertical-card" data-vertical="worship">
+        <div class="vert-icon">⛪</div>
+        <div class="vert-name">House of Worship</div>
+        <div class="vert-desc">Sanctuary sound, streaming, fellowship</div>
+      </div>
+      <div class="vertical-card" data-vertical="school">
+        <div class="vert-icon">🏫</div>
+        <div class="vert-name">School / Education</div>
+        <div class="vert-desc">Classroom A/V, paging, IT, laptops</div>
+      </div>
+      <div class="vertical-card" data-vertical="office">
+        <div class="vert-icon">🏢</div>
+        <div class="vert-name">Office / SMB</div>
+        <div class="vert-desc">Conference room, IT, M365, security</div>
+      </div>
+      <div class="vertical-card" data-vertical="retail">
+        <div class="vert-icon">🏪</div>
+        <div class="vert-name">Retail / Service</div>
+        <div class="vert-desc">Background music, signage, paging</div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <div></div>
+      <button class="btn-next" id="btn-to-2" disabled onclick="goToStep(2)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: CONFIGURATORS (one per vertical, shown dynamically) -->
+  <div id="step-2" style="display:none;">
+
+    <!-- RESTAURANT -->
+    <div class="configurator" id="config-restaurant">
+      <div class="config-section">
+        <div class="config-label">How many zones / areas need audio?</div>
+        <div class="config-options">
+          <div class="config-option" data-group="zones" data-val="1">1 Zone</div>
+          <div class="config-option selected" data-group="zones" data-val="2">2 Zones</div>
+          <div class="config-option" data-group="zones" data-val="4">4 Zones</div>
+          <div class="config-option" data-group="zones" data-val="6">6+ Zones</div>
+        </div>
+      </div>
+      <div class="config-section">
+        <div class="config-label">What do you need?</div>
+        <div class="config-options">
+          <div class="config-option selected" data-group="need-r" data-val="bgm">Background Music</div>
+          <div class="config-option" data-group="need-r" data-val="paging">Paging System</div>
+          <div class="config-option" data-group="need-r" data-val="outdoor">Outdoor Audio</div>
+          <div class="config-option" data-group="need-r" data-val="signage">Digital Signage</div>
+        </div>
+      </div>
+      <div class="config-section">
+        <div class="config-label">Square footage (approximate)</div>
+        <div class="config-slider-wrap">
+          <input type="range" class="config-slider" id="sqft-r" min="500" max="10000" step="500" value="2000">
+          <div class="config-slider-val"><span id="sqft-r-val">2,000</span> sq ft</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GYM -->
+    <div class="configurator" id="config-gym">
+      <div class="config-section">
+        <div class="config-label">Facility type</div>
+        <div class="config-options">
+          <div class="config-option selected" data-group="gym-type" data-val="general">General Gym</div>
+          <div class="config-option" data-group="gym-type" data-val="studio">Fitness Studio</div>
+          <div class="config-option" data-group="gym-type" data-val="crossfit">CrossFit / Box</div>
+          <div class="config-option" data-group="gym-type" data-val="full">Full-Service Club</div>
+        </div>
+      </div>
+      <div class="config-section">
+        <div class="config-label">What do you need?</div>
+        <div class="config-options">
+          <div class="config-option selected" data-group="need-g" data-val="zone">Zone Audio</div>
+          <div class="config-option" data-group="need-g" data-val="signage">Digital Signage</div>
+          <div class="config-option" data-group="need-g" data-val="mic">Instructor Mic</div>
+          <div class="config-option" data-group="need-g" data-val="locker">Locker Room Audio</div>
+        </div>
+      </div>
+      <div class="config-section">
+        <div class="config-label">Square footage</div>
+        <div class="config-slider-wrap">
+          <input type="range" class="config-slider" id="sqft-g" min="1000" max="20000" step="1000" value="5000">
+          <div class="config-slider-val"><span id="sqft-g-val">5,000</span> sq ft</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- WORSHIP -->
+    <div class="configurator" id="config-worship">
+      <div class="config-section">
+        <div class="config-label">Congregation size</div>
+        <div class="config-options">
+          <div class="config-option selected" data-group="cong" data-val="small">Under 100</div>
+          <div class="config-option" data-group="cong" data-val="med">100–300</div>
+          <div class="config-option" data-group="cong" data-val="large">300–1000</div>
+          <div class="config-option" data-group="cong" data-val="mega">1000+</div>
+        </div>
+      </div>
+      <div class="config-section">
+        <div class="config-label">What do you need?</div>
+        <div class="config-options">
+          <div class="config-option selected" data-group="need-w" data-val="sanctuary">Sanctuary Sound</div>
+          <div class="config-option" data-group="need-w" data-val="stream">Streaming / Broadcast</div>
+          <div class="config-option" data-group="need-w" data-val="fellowship">Fellowship Hall</div>
+          <div class="config-option" data-group="need-w" data-val="outdoor">Outdoor System</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCHOOL -->
+    <div class="configurator" id="config-school">
+      <div class="config-section">
+        <div class="config-label">What do you need?</div>
+        <div class="config-options">
+          <div class="config-option selected" data-group="need-s" data-val="av">Classroom A/V</div>
+          <div class="config-option" data-group="need-s" data-val="paging">PA / Paging System</div>
+          <div class="config-option" data-group="need-s" data-val="laptops">Bulk Laptops</div>
+          <div class="config-option" data-group="need-s" data-val="network">Networking / WiFi</div>
+          <div class="config-option" data-group="need-s" data-val="it">Managed IT</div>
+        </div>
+      </div>
+      <div class="config-section">
+        <div class="config-label">Number of classrooms / workstations</div>
+        <div class="config-slider-wrap">
+          <input type="range" class="config-slider" id="rooms-s" min="5" max="100" step="5" value="20">
+          <div class="config-slider-val"><span id="rooms-s-val">20</span> rooms</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OFFICE -->
+    <div class="configurator" id="config-office">
+      <div class="config-section">
+        <div class="config-label">Number of employees</div>
+        <div class="config-options">
+          <div class="config-option selected" data-group="emp" data-val="small">1–10</div>
+          <div class="config-option" data-group="emp" data-val="med">11–25</div>
+          <div class="config-option" data-group="emp" data-val="large">26–100</div>
+          <div class="config-option" data-group="emp" data-val="xlarge">100+</div>
+        </div>
+      </div>
+      <div class="config-section">
+        <div class="config-label">What do you need?</div>
+        <div class="config-options">
+          <div class="config-option selected" data-group="need-o" data-val="confroom">Conference Room A/V</div>
+          <div class="config-option" data-group="need-o" data-val="m365">Microsoft 365</div>
+          <div class="config-option" data-group="need-o" data-val="security">Managed Security</div>
+          <div class="config-option" data-group="need-o" data-val="hardware">Hardware Refresh</div>
+          <div class="config-option" data-group="need-o" data-val="managed">Full Managed IT</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RETAIL -->
+    <div class="configurator" id="config-retail">
+      <div class="config-section">
+        <div class="config-label">What do you need?</div>
+        <div class="config-options">
+          <div class="config-option selected" data-group="need-ret" data-val="bgm">Background Music</div>
+          <div class="config-option" data-group="need-ret" data-val="paging">Paging</div>
+          <div class="config-option" data-group="need-ret" data-val="signage">Digital Signage</div>
+          <div class="config-option" data-group="need-ret" data-val="outdoor">Outdoor Audio</div>
+        </div>
+      </div>
+      <div class="config-section">
+        <div class="config-label">Square footage</div>
+        <div class="config-slider-wrap">
+          <input type="range" class="config-slider" id="sqft-ret" min="500" max="15000" step="500" value="2000">
+          <div class="config-slider-val"><span id="sqft-ret-val">2,000</span> sq ft</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIER SELECTION (shown for all) -->
+    <div class="config-section" style="margin-top:36px;">
+      <div class="config-label">Engagement Level</div>
+      <div class="tiers">
+        <div class="tier-card" data-tier="hardware">
+          <div class="tier-label">Tier 1</div>
+          <div class="tier-name">Hardware Only</div>
+          <div class="tier-desc">Equipment sourced & shipped. You install. Best for contractors needing wholesale pricing.</div>
+          <div class="tier-margin low">~12–18% margin</div>
+        </div>
+        <div class="tier-card selected" data-tier="designed">
+          <div class="tier-label">Tier 2</div>
+          <div class="tier-name">Designed System</div>
+          <div class="tier-desc">We spec the full system for your space and supply everything. A solution, not a parts list.</div>
+          <div class="tier-margin med">~20–30% margin</div>
+        </div>
+        <div class="tier-card" data-tier="installed">
+          <div class="tier-label">Tier 3 — Recommended</div>
+          <div class="tier-name">Installed + Service</div>
+          <div class="tier-desc">Design, supply, install, and annual service contract. Working system with someone accountable.</div>
+          <div class="tier-margin high">35–47% blended margin</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="goToStep(1)">← Back</button>
+      <button class="btn-next" onclick="goToStep(3)">Generate Quote →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: QUOTE OUTPUT -->
+  <div id="step-3" style="display:none;">
+    <div class="config-label" style="margin-bottom:20px;">Your Itemized Estimate</div>
+    <div class="quote-output">
+      <div class="qo-header">
+        <div class="qo-title">AllPros Commercial Technology — Estimate</div>
+        <div class="qo-badge">✓ Preliminary Quote</div>
+      </div>
+      <div class="qo-body" id="quote-line-items">
+        <!-- populated by JS -->
+      </div>
+      <div class="qo-footer">
+        <div class="qo-totals">
+          <div class="qo-total-item">
+            <div class="qo-total-label">Total Investment</div>
+            <div class="qo-total-val" id="q-total">—</div>
+          </div>
+          <div class="qo-total-item">
+            <div class="qo-total-label">Est. Your Profit</div>
+            <div class="qo-total-val profit" id="q-profit">—</div>
+          </div>
+          <div class="qo-total-item">
+            <div class="qo-total-label">Margin</div>
+            <div class="qo-total-val margin" id="q-margin">—</div>
+          </div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-dim);max-width:220px;line-height:1.6;">
+          Estimates are planning ranges. Final pricing confirmed after site assessment.
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;padding:20px;background:var(--panel);border:1px solid var(--border);">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Monthly Payment Option</div>
+      <div style="font-size:14px;color:var(--text-dim);">This system can be structured as <strong style="color:var(--text-bright)" id="monthly-payment">—</strong>/month over 36 months for qualified businesses. No large upfront capital expense.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="goToStep(2)">← Adjust</button>
+      <button class="btn-next" onclick="goToStep(4)">Send Me This Quote →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: CONTACT -->
+  <div id="step-4" style="display:none;">
+    <div class="config-label" style="margin-bottom:20px;">Get Your Official Quote + Free Assessment</div>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Business Name</label>
+          <input type="text" class="form-input" placeholder="The Restaurant / Gym / Church..." id="f-biz">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" class="form-input" placeholder="First and last name" id="f-name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" placeholder="you@business.com" id="f-email">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input type="tel" class="form-input" placeholder="(404) 000-0000" id="f-phone">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Address / Location (optional — helps us assess accurately)</label>
+        <input type="text" class="form-input" placeholder="123 Peachtree St, Atlanta, GA..." id="f-addr">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Timeline</label>
+        <div class="config-options" style="margin-top:0;">
+          <div class="config-option selected" data-group="timeline" data-val="asap">Ready Now</div>
+          <div class="config-option" data-group="timeline" data-val="month">1–3 Months</div>
+          <div class="config-option" data-group="timeline" data-val="quarter">3–6 Months</div>
+          <div class="config-option" data-group="timeline" data-val="planning">Just Planning</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Anything else we should know?</label>
+        <textarea class="form-input" placeholder="Current setup, specific challenges, budget range..." id="f-notes"></textarea>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-back" onclick="goToStep(3)">← Back</button>
+      <button class="btn-submit" onclick="submitQuote()">Send My Quote Request ✓</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="success">
+    <div class="success-icon">✅</div>
+    <div class="success-title">Quote Request Sent</div>
+    <p class="success-sub">We'll follow up within 1 business day with your official estimate and to schedule a free site assessment if needed.<br><br>In the meantime, check out our portfolio for examples of installed systems.</p>
+    <a href="allpros_homepage.html" style="background:var(--gold);color:var(--black);padding:14px 32px;font-size:14px;font-weight:600;text-decoration:none;display:inline-block;">Back to AllPros →</a>
+  </div>
+
+</div><!-- .page -->
+
+<script>
+// ---- STATE ----
+const state = {
+  vertical: null,
+  tier: 'designed',
+  zones: 2, sqft: 2000, gymType: 'general', congregation: 'small',
+  rooms: 20, employees: 'small'
+};
+
+// ---- VERTICAL CARDS ----
+document.querySelectorAll('.vertical-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.vertical-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    state.vertical = card.dataset.vertical;
+    document.getElementById('btn-to-2').disabled = false;
+  });
+});
+
+// ---- OPTION TOGGLES (multi-select) ----
+document.querySelectorAll('.config-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    opt.classList.toggle('selected');
+  });
+});
+
+// ---- TIER CARDS (single select) ----
+document.querySelectorAll('.tier-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    state.tier = card.dataset.tier;
+  });
+});
+
+// ---- SLIDERS ----
+function wire(id, valId, format) {
+  const el = document.getElementById(id);
+  const vEl = document.getElementById(valId);
+  if (!el) return;
+  el.addEventListener('input', () => { vEl.textContent = format(+el.value); });
+}
+wire('sqft-r', 'sqft-r-val', v => v.toLocaleString());
+wire('sqft-g', 'sqft-g-val', v => v.toLocaleString());
+wire('sqft-ret', 'sqft-ret-val', v => v.toLocaleString());
+wire('rooms-s', 'rooms-s-val', v => v);
+
+// ---- NAVIGATION ----
+function goToStep(n) {
+  [1,2,3,4].forEach(i => {
+    document.getElementById('step-'+i).style.display = i === n ? 'block' : 'none';
+    const stepEl = document.getElementById('step-ind-'+i);
+    stepEl.classList.remove('active','done');
+    if (i === n) stepEl.classList.add('active');
+    if (i < n) { stepEl.classList.add('done'); document.getElementById('sn-'+i).textContent = '✓'; }
+    if (i > n) document.getElementById('sn-'+i).textContent = i;
+  });
+  if (n === 2) showConfigurator();
+  if (n === 3) buildQuote();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function showConfigurator() {
+  document.querySelectorAll('.configurator').forEach(c => c.classList.remove('active'));
+  const el = document.getElementById('config-' + state.vertical);
+  if (el) el.classList.add('active');
+}
+
+// ---- QUOTE BUILDER ----
+const QUOTES = {
+  restaurant: {
+    hardware: { name:'Hardware Supply', items:[
+      {n:'Commercial ceiling speakers (pair × zones)',c:180,s:280,d:'Zones-dependent count'},
+      {n:'Commercial amplifier',c:320,s:490,d:'Multi-zone capable'},
+      {n:'Source / control unit',c:120,s:185,d:'Zone selector + Bluetooth'},
+    ]},
+    designed: { name:'Designed System', items:[
+      {n:'Commercial ceiling speakers (specified for space)',c:220,s:360,d:'Selected for sq ft & zones'},
+      {n:'Commercial amplifier — zoned',c:380,s:580,d:'Properly sized for load'},
+      {n:'Zone controller + source unit',c:180,s:280,d:'Full zone management'},
+      {n:'System design & engineering',c:0,s:350,d:'Room acoustic spec'},
+      {n:'Cabling & connectors',c:120,s:240,d:'Low-voltage in-wall'},
+    ]},
+    installed: { name:'Installed + Service Contract', items:[
+      {n:'Commercial ceiling speakers (specified)',c:220,s:360,d:'Selected for space'},
+      {n:'Zoned amplifier system',c:380,s:580,d:'Properly sized'},
+      {n:'Zone controller + source',c:180,s:280,d:'Full zone management'},
+      {n:'System design & engineering',c:0,s:350,d:'Acoustic room spec'},
+      {n:'Cabling & low-voltage materials',c:120,s:240,d:'In-wall run'},
+      {n:'Professional installation (1 day)',c:600,s:1800,d:'2 techs, full commissioning'},
+      {n:'Annual service & monitoring contract',c:150,s:720,d:'Priority support + annual check'},
+    ]}
+  },
+  gym: {
+    hardware: { name:'Hardware Supply', items:[
+      {n:'High-output zone speakers',c:280,s:420,d:'Designed for gym noise floor'},
+      {n:'Commercial amplifier',c:380,s:580,d:'High-power output'},
+      {n:'Wireless mic system',c:240,s:380,d:'Instructor lavalier'},
+    ]},
+    designed: { name:'Designed System', items:[
+      {n:'High-output zone speakers (specified)',c:340,s:540,d:'SPL-rated for facility'},
+      {n:'Commercial amplifier — multi-zone',c:480,s:740,d:'Sized for load'},
+      {n:'Wireless instructor mic system',c:280,s:440,d:'Lavalier + handheld'},
+      {n:'System design for facility',c:0,s:450,d:'Zone mapping + acoustic plan'},
+      {n:'Cabling & infrastructure',c:180,s:360,d:'In-wall + conduit'},
+    ]},
+    installed: { name:'Installed + Service Contract', items:[
+      {n:'High-output zone speakers',c:340,s:540,d:'SPL-rated'},
+      {n:'Multi-zone amplifier system',c:480,s:740,d:'Sized for facility'},
+      {n:'Wireless instructor mic system',c:280,s:440,d:'Lavalier + handheld'},
+      {n:'Digital signage display (×2)',c:480,s:760,d:'Commercial-grade'},
+      {n:'System design & zone mapping',c:0,s:500,d:'Full acoustic plan'},
+      {n:'Cabling & low-voltage materials',c:200,s:400,d:''},
+      {n:'Professional installation (1.5 days)',c:900,s:2700,d:'Full commission + training'},
+      {n:'Annual service contract',c:200,s:960,d:'Priority + quarterly check'},
+    ]}
+  },
+  worship: {
+    hardware: { name:'Hardware Supply', items:[
+      {n:'Line array / full-range speakers',c:800,s:1280,d:'Sanctuary-grade'},
+      {n:'Digital mixing console',c:1200,s:1900,d:'16-channel minimum'},
+      {n:'Wireless mic system (×4)',c:640,s:1020,d:'Handheld + lavalier'},
+    ]},
+    designed: { name:'Designed System', items:[
+      {n:'Line array speakers (specified for room)',c:1200,s:1900,d:'Coverage analysis included'},
+      {n:'Digital mixing console',c:1400,s:2200,d:'16+ channels'},
+      {n:'Wireless mic system (×4 channels)',c:800,s:1260,d:'Mixed types'},
+      {n:'Stage monitors (×2)',c:280,s:440,d:'Floor wedge'},
+      {n:'System design — acoustic coverage',c:0,s:600,d:'Room coverage model'},
+      {n:'Cabling & snake',c:280,s:560,d:'Stage to FOH'},
+    ]},
+    installed: { name:'Installed + Service Contract', items:[
+      {n:'Line array speakers (designed for room)',c:1200,s:1900,d:'Acoustic coverage modeled'},
+      {n:'Digital mixing console + rack',c:1600,s:2520,d:'With processing'},
+      {n:'Wireless mic system (×6 channels)',c:1200,s:1900,d:'Mixed types'},
+      {n:'Stage monitors (×2)',c:280,s:440,d:''},
+      {n:'Streaming / broadcast interface',c:480,s:760,d:'HDMI + audio out'},
+      {n:'System design & acoustic modeling',c:0,s:800,d:''},
+      {n:'Cabling, rigging & infrastructure',c:400,s:800,d:''},
+      {n:'Professional installation (2 days)',c:1200,s:3600,d:'Full setup + training'},
+      {n:'Annual service contract',c:250,s:1200,d:'Priority + seasonal check'},
+    ]}
+  },
+  school: {
+    hardware: { name:'Hardware Supply', items:[
+      {n:'Interactive display panels (×rooms)',c:580,s:880,d:'Per classroom'},
+      {n:'Chromebooks / laptops (bulk)',c:280,s:420,d:'Per unit — volume pricing'},
+      {n:'PA system components',c:480,s:740,d:'Amp + speakers'},
+    ]},
+    designed: { name:'Designed System', items:[
+      {n:'Interactive display panels (specified)',c:680,s:1040,d:'Per classroom × room count'},
+      {n:'Classroom audio reinforcement (per room)',c:180,s:280,d:'Ceiling speakers + amp'},
+      {n:'PA / paging system',c:680,s:1040,d:'Full campus coverage'},
+      {n:'Bulk laptop procurement',c:280,s:400,d:'Per unit — D&H edu pricing'},
+      {n:'System design & network plan',c:0,s:800,d:'Per building'},
+    ]},
+    installed: { name:'Installed + Service Contract', items:[
+      {n:'Interactive displays (per classroom)',c:680,s:1040,d:'Mounted + commissioned'},
+      {n:'Classroom audio (per room)',c:200,s:320,d:''},
+      {n:'Full campus PA system',c:800,s:1260,d:'Zone paging'},
+      {n:'Bulk laptop procurement & imaging',c:320,s:460,d:'Pre-configured per spec'},
+      {n:'Network / WiFi infrastructure',c:1200,s:1900,d:'Per building'},
+      {n:'System design & project management',c:0,s:1200,d:''},
+      {n:'Full installation (multi-day)',c:2400,s:7200,d:'All rooms commissioned'},
+      {n:'Annual IT support contract',c:400,s:1920,d:'Helpdesk + on-site visits'},
+    ]}
+  },
+  office: {
+    hardware: { name:'Hardware Supply', items:[
+      {n:'Conference room display (×rooms)',c:480,s:740,d:'Commercial-grade'},
+      {n:'Conference audio / video system',c:580,s:900,d:'Camera + speakerphone'},
+      {n:'Workstation hardware (per seat)',c:480,s:720,d:'Laptop or desktop'},
+    ]},
+    designed: { name:'Designed System', items:[
+      {n:'Conference room display + mount',c:580,s:900,d:''},
+      {n:'Video conferencing system',c:780,s:1220,d:'Camera, mic, speaker'},
+      {n:'Microsoft 365 Business (per seat)',c:14,s:22,d:'Monthly per user'},
+      {n:'Endpoint backup solution',c:6,s:12,d:'Monthly per user'},
+      {n:'System design & IT plan',c:0,s:500,d:''},
+    ]},
+    installed: { name:'Installed + Service Contract', items:[
+      {n:'Conference room A/V (full system)',c:1200,s:1900,d:'Display, camera, audio'},
+      {n:'Microsoft 365 Business (per seat/mo)',c:14,s:22,d:'Monthly recurring'},
+      {n:'Managed endpoint security (per seat/mo)',c:8,s:16,d:'Monthly recurring'},
+      {n:'Endpoint backup (per seat/mo)',c:6,s:12,d:'Monthly recurring'},
+      {n:'Workstation hardware (per employee)',c:580,s:880,d:'Configured & deployed'},
+      {n:'Installation + setup (1 day)',c:600,s:1800,d:'Full commission'},
+      {n:'Managed IT support contract (monthly)',c:180,s:480,d:'Helpdesk + monitoring'},
+    ]}
+  },
+  retail: {
+    hardware: { name:'Hardware Supply', items:[
+      {n:'Commercial ceiling speakers',c:160,s:250,d:'Background music grade'},
+      {n:'Commercial amplifier',c:280,s:440,d:''},
+      {n:'Source / control unit',c:100,s:160,d:''},
+    ]},
+    designed: { name:'Designed System', items:[
+      {n:'Commercial ceiling speakers (specified)',c:200,s:320,d:'Coverage planned'},
+      {n:'Commercial amplifier',c:320,s:500,d:''},
+      {n:'Zone controller + source',c:160,s:260,d:''},
+      {n:'Digital signage displays (×2)',c:480,s:760,d:'Commercial-grade'},
+      {n:'System design',c:0,s:300,d:''},
+      {n:'Cabling',c:100,s:200,d:''},
+    ]},
+    installed: { name:'Installed + Service Contract', items:[
+      {n:'Commercial ceiling speakers',c:200,s:320,d:''},
+      {n:'Amplifier + zone controller',c:380,s:600,d:''},
+      {n:'Digital signage (×2) + media player',c:580,s:920,d:''},
+      {n:'System design',c:0,s:300,d:''},
+      {n:'Cabling & materials',c:120,s:240,d:''},
+      {n:'Professional installation (1 day)',c:600,s:1800,d:''},
+      {n:'Annual service contract',c:120,s:600,d:'Priority support'},
+    ]}
+  }
+};
+
+function buildQuote() {
+  const v = state.vertical;
+  const t = state.tier;
+  if (!v || !QUOTES[v]) return;
+
+  const data = QUOTES[v][t];
+  const container = document.getElementById('quote-line-items');
+  let html = '';
+  let totalCost = 0, totalSell = 0;
+
+  // multiplier for size
+  let mult = 1;
+  if (v === 'restaurant') { const z = +(document.getElementById('sqft-r')?.value||2000); mult = Math.max(1, z/2000); }
+  if (v === 'gym') { const g = +(document.getElementById('sqft-g')?.value||5000); mult = Math.max(1, g/5000); }
+  if (v === 'school') { const r = +(document.getElementById('rooms-s')?.value||20); mult = Math.max(1, r/20); }
+  if (v === 'office') {
+    const empMap = {small:1, med:2, large:5, xlarge:12};
+    const sel = document.querySelector('.config-option.selected[data-group="emp"]');
+    mult = empMap[sel?.dataset?.val || 'small'];
+  }
+  mult = Math.min(mult, 6); // cap
+
+  data.items.forEach(item => {
+    const c = Math.round(item.c * mult);
+    const s = Math.round(item.s * mult);
+    const profit = s - c;
+    const margin = s > 0 ? Math.round(profit/s*100) : 0;
+    totalCost += c;
+    totalSell += s;
+    html += `<div class="qo-row">
+      <div class="qo-item">
+        <div class="qo-item-name">${item.n}</div>
+        <div class="qo-item-desc">${item.d}</div>
+      </div>
+      <div class="qo-price-col">
+        <div class="qo-sell">$${s.toLocaleString()}</div>
+        <div class="qo-profit">+$${profit.toLocaleString()} (${margin}%)</div>
+      </div>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+  const totalProfit = totalSell - totalCost;
+  const totalMargin = totalSell > 0 ? Math.round(totalProfit/totalSell*100) : 0;
+  const monthly = Math.round(totalSell / 36 * 1.1); // add 10% financing cost
+
+  document.getElementById('q-total').textContent = '$' + totalSell.toLocaleString();
+  document.getElementById('q-profit').textContent = '$' + totalProfit.toLocaleString();
+  document.getElementById('q-margin').textContent = totalMargin + '%';
+  document.getElementById('monthly-payment').textContent = '$' + monthly.toLocaleString();
+}
+
+function submitQuote() {
+  const email = document.getElementById('f-email').value;
+  const name = document.getElementById('f-name').value;
+  if (!email || !name) { alert('Please enter your name and email.'); return; }
+  document.getElementById('step-4').style.display = 'none';
+  document.getElementById('success').style.display = 'block';
+  [1,2,3,4].forEach(i => {
+    document.getElementById('step-ind-'+i).classList.remove('active');
+    document.getElementById('step-ind-'+i).classList.add('done');
+    document.getElementById('sn-'+i).textContent = '✓';
+  });
+}
+
+// URL param pre-selection
+const params = new URLSearchParams(window.location.search);
+const preType = params.get('type');
+if (preType) {
+  const card = document.querySelector(`.vertical-card[data-vertical="${preType}"]`);
+  if (card) { card.click(); }
+}
+</script>
+</body>
+</html>
