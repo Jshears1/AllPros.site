@@ -1,0 +1,35 @@
+name = "allpros-site"
+compatibility_date = "2024-01-01"
+
+[env.production]
+name = "allpros-site"
+
+# Cloudflare Pages configuration
+# Build settings are configured in the Cloudflare Pages dashboard:
+#   Build command:     npm run build
+#   Build output dir:  dist
+#   Root directory:    /  (leave blank)
+#
+# Custom domains to add in Cloudflare Pages:
+#   allpros.site
+#   www.allpros.site
+#
+# Subdomain routing (set these up in Cloudflare DNS as CNAME → your Pages deployment):
+#   hvac.allpros.site
+#   plumbing.allpros.site
+#   electrical.allpros.site
+#   roofing.allpros.site
+#   flooring.allpros.site
+#   painting.allpros.site
+#   fencing.allpros.site
+#   remodeling.allpros.site
+#   drywall.allpros.site
+#   carpentry.allpros.site
+#   landscaping.allpros.site
+#   concrete.allpros.site
+#   pest-control.allpros.site
+#   windows.allpros.site
+#   carpet-cleaning.allpros.site
+#   water-damage.allpros.site
+#   it-services.allpros.site
+#   pool-spa.allpros.site
