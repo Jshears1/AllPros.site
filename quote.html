@@ -760,17 +760,69 @@ function buildQuote() {
   document.getElementById('monthly-payment').textContent = '$' + monthly.toLocaleString();
 }
 
-function submitQuote() {
-  const email = document.getElementById('f-email').value;
-  const name = document.getElementById('f-name').value;
+async function submitQuote() {
+  const v = (id) => (document.getElementById(id) ? document.getElementById(id).value.trim() : '');
+  const txt = (id) => (document.getElementById(id) ? document.getElementById(id).innerText.trim() : '');
+  const email = v('f-email');
+  const name = v('f-name');
   if (!email || !name) { alert('Please enter your name and email.'); return; }
-  document.getElementById('step-4').style.display = 'none';
-  document.getElementById('success').style.display = 'block';
-  [1,2,3,4].forEach(i => {
-    document.getElementById('step-ind-'+i).classList.remove('active');
-    document.getElementById('step-ind-'+i).classList.add('done');
-    document.getElementById('sn-'+i).textContent = '✓';
-  });
+
+  const vertical = (document.querySelector('.vertical-card.selected') || {}).dataset
+    ? document.querySelector('.vertical-card.selected').dataset.vertical : '';
+
+  const payload = {
+    access_key: 'e1bda52d-12b8-49ff-94d1-59ef3433f94d',
+    subject: 'New AllPros quote request - ' + (v('f-biz') || name),
+    from_name: 'AllPros quote configurator',
+    business: v('f-biz'),
+    name: name,
+    email: email,
+    phone: v('f-phone'),
+    address: v('f-addr'),
+    business_type: vertical,
+    notes: v('f-notes'),
+    estimate_total: txt('q-total'),
+    estimate_profit: txt('q-profit'),
+    estimate_margin: txt('q-margin'),
+    monthly_option: txt('monthly-payment'),
+    line_items: txt('quote-line-items')
+  };
+
+  const showSuccess = () => {
+    document.getElementById('step-4').style.display = 'none';
+    document.getElementById('success').style.display = 'block';
+    [1,2,3,4].forEach(i => {
+      document.getElementById('step-ind-'+i).classList.remove('active');
+      document.getElementById('step-ind-'+i).classList.add('done');
+      document.getElementById('sn-'+i).textContent = '\u2713';
+    });
+  };
+
+  const btn = document.querySelector('#step-4 .btn-submit');
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (data && data.success) { showSuccess(); return; }
+    throw new Error('send failed');
+  } catch (e) {
+    // Fallback: open the customer's email client so the lead still reaches us.
+    const body = Object.entries(payload)
+      .filter(([k]) => k !== 'access_key')
+      .map(([k, val]) => k + ': ' + (val || ''))
+      .join('\n');
+    window.location.href = 'mailto:hello@allpros.site?subject=' +
+      encodeURIComponent('Quote request - ' + (payload.business || name)) +
+      '&body=' + encodeURIComponent(body);
+    showSuccess();
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Send My Quote Request \u2713'; }
+  }
 }
 
 // URL param pre-selection
