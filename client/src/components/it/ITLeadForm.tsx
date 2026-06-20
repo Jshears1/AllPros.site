@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Send, CheckCircle2 } from "lucide-react";
+import { submitLead } from "../../lib/formConfig";
 
 interface FormData {
   name: string;
@@ -26,11 +27,22 @@ export function ITLeadForm({ prefillService = "" }: { prefillService?: string })
     defaultValues: { service: prefillService },
   });
 
+  const [error, setError] = useState(false);
   const onSubmit = async (data: FormData) => {
-    // TODO: wire to a free form endpoint (Web3Forms / Formspree) to email submissions.
-    await new Promise((r) => setTimeout(r, 800));
-    console.log("IT quote request:", data);
-    setSubmitted(true);
+    setError(false);
+    const ok = await submitLead(
+      {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        organization: data.org,
+        service: data.service,
+        message: data.message,
+      },
+      `AllPros IT quote request — ${data.service || "general"}`,
+    );
+    if (ok) setSubmitted(true);
+    else setError(true);
   };
 
   if (submitted) {
@@ -88,6 +100,9 @@ export function ITLeadForm({ prefillService = "" }: { prefillService?: string })
         <textarea {...register("message")} rows={3} placeholder="Space size, # of people, goal, timeline, budget if any…" className="calc-input resize-none" />
       </div>
 
+      {error && (
+        <p className="text-sm text-red-500 text-center">Something went wrong sending your request. Please email hello@allpros.site or call (404) 400-4747.</p>
+      )}
       <button
         type="submit"
         disabled={isSubmitting}
