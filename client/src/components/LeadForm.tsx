@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Send, CheckCircle2 } from "lucide-react";
 import { TRADES } from "../lib/trades";
+import { submitLead } from "../lib/formConfig";
 
 interface FormData {
   name: string;
@@ -23,11 +24,23 @@ export function LeadForm({ prefillTrade = "", compact = false }: Props) {
     defaultValues: { trade: prefillTrade }
   });
 
+  const [error, setError] = useState(false);
   const onSubmit = async (data: FormData) => {
-    // Simulate submission
-    await new Promise(r => setTimeout(r, 900));
-    console.log("Lead form submission:", data);
-    setSubmitted(true);
+    setError(false);
+    const trade = TRADES.find(t => t.id === data.trade)?.name || data.trade;
+    const ok = await submitLead(
+      {
+        name: data.name,
+        phone: data.phone,
+        email: data.email,
+        zip: data.zip,
+        trade,
+        message: data.message,
+      },
+      `AllPros estimate request — ${trade || "general"}`,
+    );
+    if (ok) setSubmitted(true);
+    else setError(true);
   };
 
   if (submitted) {
@@ -118,6 +131,9 @@ export function LeadForm({ prefillTrade = "", compact = false }: Props) {
         />
       </div>
 
+      {error && (
+        <p className="text-sm text-red-500 text-center">Something went wrong. Please email info@allpros.site or call (404) 400-4747.</p>
+      )}
       <button
         type="submit"
         disabled={isSubmitting}

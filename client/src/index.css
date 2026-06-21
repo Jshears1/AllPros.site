@@ -152,3 +152,31 @@
 
 /* Section padding */
 .section { padding-block: clamp(4rem, 8vw, 7rem); }
+
+/* ===== IT division theme — teal + gold (Signal) ===== */
+.theme-it {
+  --background: 44 48% 95%;
+  --foreground: 176 24% 13%;
+  --card: 0 0% 100%;
+  --card-foreground: 176 24% 13%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 176 24% 13%;
+  --primary: 173 64% 18%;            /* teal #0F4C45 */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 44 40% 90%;
+  --secondary-foreground: 176 24% 13%;
+  --muted: 44 28% 90%;
+  --muted-foreground: 174 10% 38%;
+  --accent: 41 55% 54%;              /* gold #C9A24B */
+  --accent-foreground: 30 60% 12%;
+  --destructive: 0 70% 45%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 40 26% 85%;
+  --input: 40 26% 85%;
+  --ring: 173 64% 18%;
+}
+.it-hero {
+  background:
+    radial-gradient(900px 480px at 82% -10%, hsl(41 55% 54% / 0.18), transparent 60%),
+    radial-gradient(700px 480px at -6% 8%, hsl(173 64% 18% / 0.10), transparent 55%);
+}
